@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Panel de Administración</h2>
+        <div id="message-area" class="message-area"></div>
+
+        <div id="admin-view">
+            <h3>Crear Cuenta de Médico</h3>
+            <form id="create-doctor-form">
+                <div class="form-group">
+                    <label for="doctor-ci">CI:</label>
+                    <input type="text" id="doctor-ci" name="ci" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctor-nombres">Nombres:</label>
+                    <input type="text" id="doctor-nombres" name="nombres" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctor-apellidos">Apellidos:</label>
+                    <input type="text" id="doctor-apellidos" name="apellidos" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctor-email">Correo Electrónico:</label>
+                    <input type="email" id="doctor-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctor-telefono">Teléfono:</label>
+                    <input type="tel" id="doctor-telefono" name="telefono" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctor-dob">Fecha de Nacimiento:</label>
+                    <input type="date" id="doctor-dob" name="fecha_nacimiento" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctor-especialidad">Especialidad:</label>
+                    <input type="text" id="doctor-especialidad" name="especialidad" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctor-licencia">Número de Licencia:</label>
+                    <input type="text" id="doctor-licencia" name="numero_licencia" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctor-horario">Horario de Atención:</label>
+                    <textarea id="doctor-horario" name="horario_atencion" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="primary">Crear Cuenta de Médico</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost/api.php';
+        const createDoctorForm = document.getElementById('create-doctor-form');
+        const messageArea = document.getElementById('message-area');
+
+        // Función para mostrar mensajes
+        function showMessage(message, type = 'error') {
+            messageArea.textContent = message;
+            messageArea.className = `message-area ${type}`;
+        }
+
+        // Manejar el envío del formulario de creación de médico
+        createDoctorForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(createDoctorForm);
+            formData.append('action', 'create_doctor');
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                showMessage(`Cuenta creada con éxito. Contraseña temporal: ${result.temp_password}`, 'success');
+                createDoctorForm.reset();
+            } else {
+                showMessage(result.message);
+            }
+        });
+    </script>
+</body>
+</html>

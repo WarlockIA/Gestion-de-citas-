@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Citas Médicas</title>
+    <!-- Enlace al archivo CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2 id="form-title">Iniciar Sesión</h2>
+        <div id="message-area" class="message-area"></div>
+
+        <!-- Vista de Inicio de Sesión -->
+        <div id="login-view">
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-ci">Cédula de Identidad (CI):</label>
+                    <input type="text" id="login-ci" name="ci" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Contraseña:</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <button type="submit" class="primary">Iniciar Sesión</button>
+            </form>
+            <a class="link" id="show-register">¿No tienes cuenta? Regístrate</a>
+        </div>
+
+        <!-- Vista de Registro -->
+        <div id="register-view" class="hidden">
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-ci">CI:</label>
+                    <input type="text" id="register-ci" name="ci" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-nombres">Nombres:</label>
+                    <input type="text" id="register-nombres" name="nombres" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-apellidos">Apellidos:</label>
+                    <input type="text" id="register-apellidos" name="apellidos" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-telefono">Teléfono:</label>
+                    <input type="tel" id="register-telefono" name="telefono" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-dob">Fecha de Nacimiento:</label>
+                    <input type="date" id="register-dob" name="fecha_nacimiento" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Correo Electrónico:</label>
+                    <input type="email" id="register-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Contraseña:</label>
+                    <input type="password" id="register-password" name="password" minlength="8" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-role">Soy un...</label>
+                    <select id="register-role" name="role" required>
+                        <option value="paciente">Paciente</option>
+                        <option value="medico">Médico</option>
+                    </select>
+                </div>
+                <button type="submit" class="primary">Registrarse</button>
+            </form>
+            <a class="link" id="show-login">¿Ya tienes cuenta? Iniciar Sesión</a>
+        </div>
+
+        <!-- Vista del Dashboard (se adapta según el estado del perfil) -->
+        <div id="dashboard-view" class="hidden">
+            <h2>Dashboard</h2>
+            <div id="profile-completion-view" class="hidden">
+                <h3>Completa tu perfil</h3>
+                <form id="patient-profile-form" class="hidden">
+                    <div class="form-group">
+                        <label for="patient-genero">Género:</label>
+                        <select id="patient-genero" name="genero" required>
+                            <option value="">Selecciona tu género</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="primary">Guardar Perfil</button>
+                </form>
+
+                <form id="doctor-profile-form" class="hidden">
+                    <div class="form-group">
+                        <label for="doctor-especialidad">Especialidad:</label>
+                        <input type="text" id="doctor-especialidad" name="especialidad" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-licencia">Número de Licencia:</label>
+                        <input type="text" id="doctor-licencia" name="numero_licencia" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-horario">Horario de Atención:</label>
+                        <textarea id="doctor-horario" name="horario_atencion" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="primary">Guardar Perfil</button>
+                </form>
+            </div>
+
+            <!-- Información del perfil completado -->
+            <div id="user-info" class="hidden">
+                <p>Bienvenido, <span id="user-name"></span>.</p>
+                <p>Tu rol es: <span id="user-role"></span>.</p>
+                <p>Tu ID de Usuario es: <span id="user-id"></span>.</p>
+                <h4>Datos Personales:</h4>
+                <p>CI: <span id="user-ci"></span></p>
+                <p>Nombres: <span id="user-nombres"></span></p>
+                <p>Apellidos: <span id="user-apellidos"></span></p>
+                <p>Teléfono: <span id="user-telefono"></span></p>
+                <p>Fecha de Nacimiento: <span id="user-dob"></span></p>
+                <p>Correo: <span id="user-email"></span></p>
+
+                <div id="patient-info" class="hidden">
+                    <h4>Datos de Paciente:</h4>
+                    <p>Género: <span id="patient-genero-info"></span></p>
+                </div>
+
+                <div id="doctor-info" class="hidden">
+                    <h4>Datos de Médico:</h4>
+                    <p>Especialidad: <span id="doctor-especialidad-info"></span></p>
+                    <p>Número de Licencia: <span id="doctor-licencia-info"></span></p>
+                    <p>Horario de Atención: <span id="doctor-horario-info"></span></p>
+                </div>
+            </div>
+
+            <button id="logout-btn" class="secondary">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <!-- Enlace al archivo JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

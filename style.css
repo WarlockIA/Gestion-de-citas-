@@ -1,0 +1,88 @@
+/*
+    Archivo: style.css
+    Contiene los estilos para el frontend.
+*/
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+h2, h3, h4 {
+    color: #333;
+    margin-bottom: 20px;
+}
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+}
+textarea {
+    resize: vertical;
+}
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+button.primary {
+    background-color: #007bff;
+}
+button.primary:hover {
+    background-color: #0056b3;
+}
+button.secondary {
+    background-color: #6c757d;
+}
+button.secondary:hover {
+    background-color: #545b62;
+}
+.link {
+    display: block;
+    margin-top: 15px;
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+}
+.hidden {
+    display: none;
+}
+.message-area {
+    color: #dc3545;
+    margin-bottom: 15px;
+}
+.message-area.success {
+    color: #28a745;
+}
