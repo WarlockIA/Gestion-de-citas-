@@ -22,7 +22,7 @@ body {
     width: 100%;
     text-align: center;
 }
-h2, h3, h4 {
+h2 {
     color: #333;
     margin-bottom: 20px;
 }
@@ -36,15 +36,12 @@ label {
     font-weight: bold;
     color: #555;
 }
-input, select, textarea {
+input, select {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
-}
-textarea {
-    resize: vertical;
 }
 button {
     width: 100%;
