@@ -133,6 +133,34 @@
                 </div>
             </div>
 
+            <div id="appointment-management-view" class="hidden">
+                <h3>Agendar Nueva Cita</h3>
+                <div class="form-group">
+                    <label for="doctor-select">Seleccionar Médico:</label>
+                    <select id="doctor-select" required>
+                        <option value="">Cargando médicos...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date-select">Seleccionar Fecha:</label>
+                    <input type="date" id="date-select" required>
+                </div>
+                <button id="check-availability-btn" class="primary">Ver Disponibilidad</button>
+
+                <div id="availability-area" class="hidden">
+                    <h4>Horarios Disponibles para <span id="selected-doctor-name"></span>:</h4>
+                    <div id="time-slots-container">
+                        </div>
+                    <button id="book-appointment-btn" class="primary hidden">Agendar Cita</button>
+                    <div id="appointment-summary" class="hidden">
+                        <h5>Resumen de la Cita:</h5>
+                        <p>Médico: <strong id="summary-doctor"></strong></p>
+                        <p>Fecha: <strong id="summary-date"></strong></p>
+                        <p>Hora: <strong id="summary-time"></strong></p>
+                    </div>
+                </div>
+            </div>
+
             <button id="logout-btn" class="secondary">Cerrar Sesión</button>
         </div>
     </div>

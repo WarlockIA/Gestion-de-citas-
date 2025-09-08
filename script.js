@@ -6,6 +6,21 @@
 // URL de tu script PHP en el servidor local
 const API_URL = 'http://localhost/api.php'; // Cambia esto si es necesario
 
+const appointmentManagementView = document.getElementById('appointment-management-view');
+const doctorSelect = document.getElementById('doctor-select');
+const dateSelect = document.getElementById('date-select');
+const checkAvailabilityBtn = document.getElementById('check-availability-btn');
+const availabilityArea = document.getElementById('availability-area');
+const timeSlotsContainer = document.getElementById('time-slots-container');
+const bookAppointmentBtn = document.getElementById('book-appointment-btn');
+const appointmentSummary = document.getElementById('appointment-summary');
+const summaryDoctor = document.getElementById('summary-doctor');
+const summaryDate = document.getElementById('summary-date');
+const summaryTime = document.getElementById('summary-time');
+
+let selectedTime = null;
+let selectedDoctorId = null;
+
 // Obtener elementos del DOM
 const loginView = document.getElementById('login-view');
 const registerView = document.getElementById('register-view');
@@ -33,7 +48,10 @@ function showView(viewId) {
     loginView.classList.add('hidden');
     registerView.classList.add('hidden');
     dashboardView.classList.add('hidden');
-    // Si la vista de cambio de contraseña existe, ocultarla por defecto
+    // Asegúrate de que todas las sub-vistas del dashboard también se ocultan
+    profileCompletionView.classList.add('hidden');
+    userInfoView.classList.add('hidden');
+    appointmentManagementView.classList.add('hidden'); // Añadir esta línea
     if (changePasswordView) {
         changePasswordView.classList.add('hidden');
     }
@@ -287,12 +305,19 @@ function showDashboard(user) {
         patientInfoView.classList.remove('hidden');
         doctorInfoView.classList.add('hidden');
         document.getElementById('patient-genero-info').textContent = user.genero || 'No especificado';
+
+        // Lógica para el paciente: muestra el calendario y carga los médicos
+        appointmentManagementView.classList.remove('hidden');
+        loadDoctors();
     } else { // medico
         patientInfoView.classList.add('hidden');
         doctorInfoView.classList.remove('hidden');
         document.getElementById('doctor-especialidad-info').textContent = user.especialidad || 'No especificado';
         document.getElementById('doctor-licencia-info').textContent = user.numero_licencia || 'No especificado';
         document.getElementById('doctor-horario-info').textContent = user.horario_atencion || 'No especificado';
+
+        // Ocultar la vista de citas si el usuario no es un paciente
+        appointmentManagementView.classList.add('hidden'); 
     }
 }
 
@@ -329,3 +354,135 @@ window.onload = function() {
         showView('login-view');
     }
 }
+
+// Cargar la lista de médicos en el selector
+async function loadDoctors() {
+    const response = await fetch(API_URL, {
+        method: 'POST',
+        body: new URLSearchParams('action=get_doctors')
+    });
+    const result = await response.json();
+
+    if (result.success) {
+        doctorSelect.innerHTML = '<option value="">Seleccione un médico</option>';
+        result.doctors.forEach(doctor => {
+            const option = document.createElement('option');
+            option.value = doctor.user_id;
+            option.textContent = `${doctor.nombres} ${doctor.apellidos} - ${doctor.especialidad}`;
+            doctorSelect.appendChild(option);
+        });
+    } else {
+        showMessage(result.message);
+    }
+}
+
+// Deshabilitar fechas pasadas en el selector de fecha
+const today = new Date().toISOString().split('T')[0];
+dateSelect.min = today;
+
+// Manejar el clic en el botón "Ver Disponibilidad"
+checkAvailabilityBtn.addEventListener('click', async () => {
+    const medicoId = doctorSelect.value;
+    const fecha = dateSelect.value;
+
+    if (!medicoId || !fecha) {
+        showMessage('Por favor, seleccione un médico y una fecha.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('action', 'get_availability');
+    formData.append('medico_id', medicoId);
+    formData.append('fecha', fecha);
+
+    const response = await fetch(API_URL, {
+        method: 'POST',
+        body: formData,
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        displayAvailability(result.availability, medicoId, fecha);
+    } else {
+        showMessage(result.message);
+    }
+});
+
+// Mostrar las franjas horarias disponibles
+function displayAvailability(timeSlots, medicoId, fecha) {
+    timeSlotsContainer.innerHTML = '';
+    availabilityArea.classList.remove('hidden');
+    selectedTime = null;
+    bookAppointmentBtn.classList.add('hidden');
+    appointmentSummary.classList.add('hidden');
+
+    const doctorName = doctorSelect.options[doctorSelect.selectedIndex].text;
+    document.getElementById('selected-doctor-name').textContent = doctorName;
+
+    if (timeSlots.length === 0) {
+        timeSlotsContainer.innerHTML = '<p>No hay horarios disponibles para esta fecha.</p>';
+        return;
+    }
+
+    timeSlots.forEach(time => {
+        const timeSlot = document.createElement('div');
+        timeSlot.className = 'time-slot';
+        timeSlot.textContent = time;
+        timeSlot.addEventListener('click', () => {
+            // Des-seleccionar la franja anterior
+            const selected = document.querySelector('.time-slot.selected');
+            if (selected) {
+                selected.classList.remove('selected');
+            }
+            // Seleccionar la nueva franja
+            timeSlot.classList.add('selected');
+            selectedTime = time;
+            selectedDoctorId = medicoId;
+
+            // Mostrar el resumen y el botón de agendar
+            summaryDoctor.textContent = doctorName;
+            summaryDate.textContent = fecha;
+            summaryTime.textContent = time;
+            appointmentSummary.classList.remove('hidden');
+            bookAppointmentBtn.classList.remove('hidden');
+        });
+        timeSlotsContainer.appendChild(timeSlot);
+    });
+}
+
+// Manejar el clic en el botón "Agendar Cita"
+bookAppointmentBtn.addEventListener('click', async () => {
+    if (!selectedTime || !selectedDoctorId) {
+        showMessage('Por favor, seleccione un horario para agendar la cita.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('action', 'book_appointment');
+    formData.append('paciente_id', sessionStorage.getItem('user_user_id'));
+    formData.append('medico_id', selectedDoctorId);
+    formData.append('fecha', dateSelect.value);
+    formData.append('hora', selectedTime);
+
+    const response = await fetch(API_URL, {
+        method: 'POST',
+        body: formData,
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        showMessage(result.message, 'success');
+        // Limpiar la interfaz después de agendar
+        selectedTime = null;
+        selectedDoctorId = null;
+        availabilityArea.classList.add('hidden');
+        bookAppointmentBtn.classList.add('hidden');
+        appointmentSummary.classList.add('hidden');
+        dateSelect.value = '';
+        doctorSelect.value = '';
+    } else {
+        showMessage(result.message);
+    }
+});

@@ -83,3 +83,38 @@ button.secondary:hover {
 .message-area.success {
     color: #28a745;
 }
+
+/* Estilos para las franjas horarias */
+#time-slots-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+.time-slot {
+    padding: 10px 15px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    user-select: none;
+}
+.time-slot:hover {
+    background-color: #e6f2ff;
+}
+.time-slot.selected {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+#appointment-summary {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+#appointment-summary h5 {
+    margin-top: 0;
+}
