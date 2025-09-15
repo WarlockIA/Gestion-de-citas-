@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Usuario</title>
+    <link rel="stylesheet" href="../Assets/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Panel de Usuario</h2>
+        <div id="user-info">
+            <p>Bienvenido, <span id="user-name"></span>.</p>
+            <p>Tu rol es: <span id="user-role"></span>.</p>
+            <p>Tu ID de Usuario es: <span id="user-id"></span>.</p>
+            <h4>Datos Personales:</h4>
+            <p>CI: <span id="user-ci"></span></p>
+            <p>Nombres: <span id="user-nombres"></span></p>
+            <p>Apellidos: <span id="user-apellidos"></span></p>
+            <p>Teléfono: <span id="user-telefono"></span></p>
+            <p>Fecha de Nacimiento: <span id="user-dob"></span></p>
+            <p>Correo: <span id="user-email"></span></p>
+
+            <div id="patient-info" class="hidden">
+                <h4>Datos de Paciente:</h4>
+                <p>Género: <span id="patient-genero-info"></span></p>
+            </div>
+
+            <div id="doctor-info" class="hidden">
+                <h4>Datos de Médico:</h4>
+                <p>Especialidad: <span id="doctor-especialidad-info"></span></p>
+                <p>Número de Licencia: <span id="doctor-licencia-info"></span></p>
+                <p>Horario de Atención: <span id="doctor-horario-info"></span></p>
+            </div>
+        </div>
+
+        <div id="appointment-management-view" class="hidden">
+            <h3>Agendar Nueva Cita</h3>
+            <div class="form-group">
+                <label for="doctor-select">Seleccionar Médico:</label>
+                <select id="doctor-select" required>
+                    <option value="">Cargando médicos...</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date-select">Seleccionar Fecha:</label>
+                <input type="date" id="date-select" required>
+            </div>
+            <button id="check-availability-btn" class="primary">Ver Disponibilidad</button>
+
+            <div id="availability-area" class="hidden">
+                <h4>Horarios Disponibles para <span id="selected-doctor-name"></span>:</h4>
+                <div id="time-slots-container">
+                </div>
+                <button id="book-appointment-btn" class="primary hidden">Agendar Cita</button>
+                <div id="appointment-summary" class="hidden">
+                    <h5>Resumen de la Cita:</h5>
+                    <p>Médico: <strong id="summary-doctor"></strong></p>
+                    <p>Fecha: <strong id="summary-date"></strong></p>
+                    <p>Hora: <strong id="summary-time"></strong></p>
+                </div>
+            </div>
+        </div>
+
+        <button id="logout-btn" class="secondary">Cerrar Sesión</button>
+    </div>
+</body>
+
+</html>

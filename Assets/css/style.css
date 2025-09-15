@@ -1,0 +1,246 @@
+/*
+    Archivo: style.css
+    Contiene los estilos para el frontend.
+*/
+
+:root {
+    --primary-color: #007bff;
+    --primary-hover-color: #0056b3;
+    --secondary-color: #6c757d;
+    --secondary-hover-color: #545b62;
+    --bg-color: #f0f2f5;
+    --container-bg-color: #fff;
+    --text-color: #333;
+    --label-color: #555;
+    --input-border-color: #ccc;
+    --success-color: #28a745;
+    --error-color: #dc3545;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    transition: background-color 0.5s ease;
+}
+
+.container {
+    background-color: var(--container-bg-color);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    /* Animación de entrada */
+    animation: fade-in 0.8s ease-out;
+}
+
+h2 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    animation: slide-in 0.6s ease-out;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+    opacity: 0;
+    animation: fade-in-up 0.5s forwards;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.1s; }
+.form-group:nth-child(2) { animation-delay: 0.2s; }
+.form-group:nth-child(3) { animation-delay: 0.3s; }
+.form-group:nth-child(4) { animation-delay: 0.4s; }
+.form-group:nth-child(5) { animation-delay: 0.5s; }
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--label-color);
+    transition: color 0.3s ease;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+button.primary {
+    background-color: var(--primary-color);
+}
+
+button.primary:hover {
+    background-color: var(--primary-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+button.secondary {
+    background-color: var(--secondary-color);
+}
+
+button.secondary:hover {
+    background-color: var(--secondary-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.link {
+    display: block;
+    margin-top: 15px;
+    color: var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.link:hover {
+    color: var(--primary-hover-color);
+    text-decoration: underline;
+}
+
+.hidden {
+    display: none;
+}
+
+.message-area {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    opacity: 0;
+    animation: fade-in-down 0.5s forwards;
+}
+
+.message-area.success {
+    background-color: #d4edda;
+    color: var(--success-color);
+}
+
+.message-area.error {
+    background-color: #f8d7da;
+    color: var(--error-color);
+}
+
+/* Estilos para las franjas horarias */
+#time-slots-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.time-slot {
+    padding: 10px 15px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    animation: pop-in 0.4s ease-out;
+}
+
+.time-slot:hover {
+    background-color: #e9e9e9;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.time-slot.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.time-slot.selected:hover {
+    transform: scale(1.05);
+}
+
+/* Animaciones */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in-down {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pop-in {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

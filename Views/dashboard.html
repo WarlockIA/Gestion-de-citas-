@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../Assets/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Dashboard</h2>
+        <div id="message-area" class="message-area"></div>
+
+        <div id="patient-dashboard-view" class="hidden">
+            <h3>Agendar Nueva Cita</h3>
+            <div class="form-group">
+                <label for="doctor-select">Seleccionar Médico:</label>
+                <select id="doctor-select" required>
+                    <option value="">Cargando médicos...</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date-select">Seleccionar Fecha:</label>
+                <input type="date" id="date-select" required>
+            </div>
+            <button id="check-availability-btn" class="primary">Ver Disponibilidad</button>
+
+            <div id="availability-area" class="hidden">
+                <h4>Horarios Disponibles para <span id="selected-doctor-name"></span>:</h4>
+                <div id="time-slots-container">
+                </div>
+                <button id="book-appointment-btn" class="primary hidden">Agendar Cita</button>
+                <div id="appointment-summary" class="hidden">
+                    <h5>Resumen de la Cita:</h5>
+                    <p>Médico: <strong id="summary-doctor"></strong></p>
+                    <p>Fecha: <strong id="summary-date"></strong></p>
+                    <p>Hora: <strong id="summary-time"></strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="my-appointments-view" class="hidden">
+            <h3>Mis Citas Agendadas</h3>
+            <div id="appointments-list-container">
+                </div>
+            <p id="no-appointments-message" class="hidden">No tienes citas agendadas.</p>
+        </div>
+        
+        <button id="logout-btn" class="secondary">Cerrar Sesión</button>
+    </div>
+
+    <script src="../Assets/js/script.js"></script>
+</body>
+</html>
